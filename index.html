@@ -31,18 +31,18 @@
       <p id="controlsHelp" class="sr-only">Use arrow keys on sliders for precise adjustments. Camera output updates in real time.</p>
 
       <div class="control-group">
-        <label for="densityRange">Density <output id="densityValue" aria-live="polite">75</output></label>
-        <input id="densityRange" type="range" min="0" max="100" value="75" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75" aria-label="Density">
+        <label for="densityRange">Density <output id="densityValue" aria-live="polite">90</output></label>
+        <input id="densityRange" type="range" min="0" max="100" value="90" aria-valuemin="0" aria-valuemax="100" aria-valuenow="90" aria-label="Density">
       </div>
 
       <div class="control-group">
-        <label for="quantityRange">Quantity <output id="quantityValue" aria-live="polite">60</output></label>
-        <input id="quantityRange" type="range" min="20" max="100" value="60" aria-valuemin="20" aria-valuemax="100" aria-valuenow="60" aria-label="Quantity">
+        <label for="quantityRange">Quantity <output id="quantityValue" aria-live="polite">88</output></label>
+        <input id="quantityRange" type="range" min="20" max="100" value="88" aria-valuemin="20" aria-valuemax="100" aria-valuenow="88" aria-label="Quantity">
       </div>
 
       <div class="control-group">
-        <label for="noiseRange">Noise <output id="noiseValue" aria-live="polite">8</output></label>
-        <input id="noiseRange" type="range" min="0" max="100" value="8" aria-valuemin="0" aria-valuemax="100" aria-valuenow="8" aria-label="Noise">
+        <label for="noiseRange">Noise <output id="noiseValue" aria-live="polite">4</output></label>
+        <input id="noiseRange" type="range" min="0" max="100" value="4" aria-valuemin="0" aria-valuemax="100" aria-valuenow="4" aria-label="Noise">
       </div>
 
       <div class="control-group">
@@ -50,7 +50,10 @@
         <select id="textureSelect">
           <option value="linear">Linear</option>
           <option value="stipple">Stipple</option>
-          <option value="edge">Edge</option>
+          <option value="risograph">Risograph</option>
+          <option value="cyanotype">Cyanotype</option>
+          <option value="thermal">Thermal</option>
+          <option value="infrared">Infrared</option>
         </select>
       </div>
 
@@ -59,7 +62,6 @@
         <select id="colorModeSelect">
           <option value="mono">Mono Tint</option>
           <option value="rgb">Source RGB</option>
-          <option value="gradient">Neon Gradient</option>
         </select>
       </div>
 

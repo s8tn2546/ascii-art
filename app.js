@@ -29,10 +29,6 @@ const state = {
   stream: null,
   running: false,
   hasRenderedFrame: false,
-  focusRect: null,
-  faceDetector: null,
-  faceDetectBusy: false,
-  faceDetectionAt: 0,
   controls: {
     density: Number(elements.densityRange.value),
     quantity: Number(elements.quantityRange.value),
@@ -119,7 +115,6 @@ async function startCamera() {
     state.fps.value = 0;
     state.hasRenderedFrame = false;
     state.dirty = true;
-    state.focusRect = null;
 
     elements.captureBtn.disabled = false;
     setStatus("Live");
@@ -142,7 +137,6 @@ async function startCamera() {
 function stopCamera() {
   state.running = false;
   state.hasRenderedFrame = false;
-  state.focusRect = null;
 
   if (state.rafId) {
     cancelAnimationFrame(state.rafId);
@@ -164,97 +158,6 @@ function stopCamera() {
   setStatus("Stopped");
 }
 
-function clamp(value, min, max) {
-  return Math.min(max, Math.max(min, value));
-}
-
-function getCenterFocus() {
-  const videoWidth = elements.cameraVideo.videoWidth;
-  const videoHeight = elements.cameraVideo.videoHeight;
-  const targetAspect = 0.82;
-  let width = videoWidth * 0.55;
-  let height = width / targetAspect;
-
-  if (height > videoHeight * 0.9) {
-    height = videoHeight * 0.9;
-    width = height * targetAspect;
-  }
-
-  const x = (videoWidth - width) / 2;
-  const y = (videoHeight - height) / 2;
-  return { x, y, width, height };
-}
-
-function expandFocusBox(box, videoWidth, videoHeight) {
-  const padding = 1.55;
-  const centerX = box.x + box.width / 2;
-  const centerY = box.y + box.height / 2;
-  const width = clamp(box.width * padding, videoWidth * 0.3, videoWidth * 0.95);
-  const height = clamp(box.height * padding, videoHeight * 0.3, videoHeight * 0.95);
-  return {
-    x: clamp(centerX - width / 2, 0, videoWidth - width),
-    y: clamp(centerY - height / 2, 0, videoHeight - height),
-    width,
-    height
-  };
-}
-
-async function updateFocusRegion(now = performance.now()) {
-  if (!state.running || state.faceDetectBusy || !elements.cameraVideo.videoWidth) {
-    return;
-  }
-
-  const shouldDetect = now - state.faceDetectionAt > 260;
-  if (!shouldDetect) {
-    return;
-  }
-
-  state.faceDetectionAt = now;
-
-  if (window.FaceDetector) {
-    if (!state.faceDetector) {
-      try {
-        state.faceDetector = new FaceDetector({ fastMode: true, maxDetectedFaces: 1 });
-      } catch (_err) {
-        state.faceDetector = null;
-      }
-    }
-
-    if (!state.faceDetector) {
-      state.focusRect = getCenterFocus();
-      return;
-    }
-
-    state.faceDetectBusy = true;
-    try {
-      const faces = await state.faceDetector.detect(elements.cameraVideo);
-      const face = faces[0];
-      if (face?.boundingBox) {
-        const box = face.boundingBox;
-        state.focusRect = expandFocusBox(
-          {
-            x: box.x,
-            y: box.y,
-            width: box.width,
-            height: box.height
-          },
-          elements.cameraVideo.videoWidth,
-          elements.cameraVideo.videoHeight
-        );
-      } else {
-        state.focusRect = getCenterFocus();
-      }
-    } catch (_err) {
-      state.focusRect = getCenterFocus();
-    } finally {
-      state.faceDetectBusy = false;
-    }
-    return;
-  }
-
-  state.focusRect = getCenterFocus();
-}
-
 function runLoop(now = performance.now()) {
   if (!state.running) {
     return;
@@ -265,8 +168,6 @@ function runLoop(now = performance.now()) {
   if (document.hidden) {
     return;
   }
-
-  void updateFocusRegion(now);
 
   if (!state.dirty && now - state.lastRender < state.frameThrottleMs) {
     return;
@@ -279,8 +180,7 @@ function runLoop(now = performance.now()) {
     sampleCanvas: elements.sampleCanvas,
     outputCanvas: elements.asciiCanvas,
     video: elements.cameraVideo,
-    controls: state.controls,
-    focusRect: state.focusRect
+    controls: state.controls
   });
 
   if (result.fpsEligible) {
