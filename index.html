@@ -13,6 +13,10 @@
   <div class="bg-glow" aria-hidden="true"></div>
 
   <main class="app-shell">
+    <div class="hud hud-tl">
+      <span id="statusText" class="hud-pill" data-type="ok">Ready</span>
+    </div>
+
     <section class="stage-wrap">
       <canvas id="asciiCanvas" class="ascii-canvas" aria-label="Live ASCII camera output"></canvas>
     </section>
@@ -22,7 +26,7 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.63l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.25 7.25 0 0 0-1.63-.94l-.36-2.54a.5.5 0 0 0-.5-.43h-3.84a.5.5 0 0 0-.5.43l-.36 2.54c-.58.24-1.13.54-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.7 8.85a.5.5 0 0 0 .12.63l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94L2.82 14.52a.5.5 0 0 0-.12.63l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96c.5.4 1.05.7 1.63.94l.36 2.54a.5.5 0 0 0 .5.43h3.84a.5.5 0 0 0 .5-.43l.36-2.54c.58-.24 1.13-.54 1.63-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.63l-2.03-1.58ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z"/></svg>
       </button>
 
-      <button id="captureBtn" class="icon-btn primary" type="button" aria-label="Download PNG" disabled>
+      <button id="captureBtn" class="icon-btn" type="button" aria-label="Download PNG" disabled>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v8.59l2.3-2.3a1 1 0 1 1 1.4 1.42l-4.01 4a1 1 0 0 1-1.38 0l-4.01-4a1 1 0 0 1 1.4-1.42L11 12.59V4a1 1 0 0 1 1-1Zm-7 14a1 1 0 0 1 1 1v1h12v-1a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1Z"/></svg>
       </button>
     </nav>
@@ -72,7 +76,7 @@
     </aside>
   </main>
 
-  <video id="cameraVideo" autoplay playsinline muted hidden></video>
+  <video id="cameraVideo" autoplay playsinline muted></video>
   <canvas id="sampleCanvas" hidden></canvas>
 
   <script type="module" src="./app.js"></script>

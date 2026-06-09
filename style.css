@@ -296,3 +296,13 @@ select:focus  { border-color: var(--accent-2); }
   .hud-tl { left: 0.55rem; }
   .hud-tr { right: 0.55rem; }
 }
+
+#cameraVideo {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  width: 100px;
+  height: 100px;
+  opacity: 0;
+  pointer-events: none;
+}

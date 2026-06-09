@@ -6,6 +6,7 @@ const elements = {
   cameraVideo: document.getElementById("cameraVideo"),
   sampleCanvas: document.getElementById("sampleCanvas"),
   asciiCanvas: document.getElementById("asciiCanvas"),
+  statusText: document.getElementById("statusText"),
 
   settingsBtn: document.getElementById("settingsBtn"),
   captureBtn: document.getElementById("captureBtn"),
@@ -59,11 +60,13 @@ function setStatus(text, isError = false) {
   }
 
   elements.statusText.textContent = text;
+  elements.statusText.setAttribute("data-type", isError ? "error" : "ok");
   elements.statusText.style.color = isError ? "#ff9fb2" : "#71f8cd";
   elements.statusText.style.borderColor = isError
     ? "rgba(255, 107, 135, 0.45)"
     : "rgba(113, 248, 205, 0.35)";
 }
+
 
 function resizeOutputCanvas() {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
